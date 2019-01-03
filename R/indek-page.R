@@ -1,3 +1,18 @@
+#' The function 'indek.page()' creates pages, which are objects
+#' that facilitate obtaining resources from web pages. It stores the
+#' links that can be found in the page and permits the user to search
+#' the required resources.
+#'
+#' @param url a character vector with the url of the web page
+#' @param baseurl a character vector with the url of the web page.
+#' For example, ohttps://www.indec.gob.ar.
+#' @param cachedir a character vector with the local path to a
+#' directory to be used as the cache.
+#' @examples
+#' indek.page("https://www.indec.gob.ar/bases-de-datos.asp",
+#'            "https://www.indec.gob.ar",
+#'             "~/.indek.cache")
+#' @export
 indek.page <- function(url, baseurl, cachedir) {
     if (class(url) != "character") {
         stop("indek.page: url parameter must be character")
@@ -9,14 +24,6 @@ indek.page <- function(url, baseurl, cachedir) {
         class = "indek.page")
     page$hrefs <- extract_hrefs(page)
     page
-}
-
-extract_hrefs0 <- function(o) UseMethod("extract_hrefs0")
-extract_hrefs0.indek.page <- function(page) {
-    html <- get_url(page$cache, page$url)
-    links <- xml2::xml_find_all(html, "//a")
-    urls <- sapply(xml2::xml_find_all(links, "@href"), xml2::xml_text)
-    lapply(unique(trimws(urls)), indek.url)
 }
 
 extract_hrefs <- function(o) UseMethod("extract_hrefs")
@@ -32,7 +39,14 @@ extract_hrefs.indek.page <- function(page) {
         cache = page$cache)
 }
 
-
+#' 'find_hrefs' search for resources whithin the links of a web page
+#' 
+#' ## S3 method for class 'indek.page'
+#' find_hrefs(x, regex)
+#'
+#' @param x an object used to select a method
+#' @param regex a character vector with the regexs for matching.
+#' @export
 find_hrefs <- function(page, regex) UseMethod("find_hrefs")
 find_hrefs.indek.page <- function(page, regexvec) {
     refs <- page$hrefs
@@ -48,6 +62,7 @@ find_hrefs.indek.page <- function(page, regexvec) {
     refs
 }
 
+#' @export
 find_eph <- function(page, regex) UseMethod("find_eph")
 find_eph.indek.page <- function(page, regexvec) {
     regexvec <-  c("eph/", regexvec)
