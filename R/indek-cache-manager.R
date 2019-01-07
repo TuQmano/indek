@@ -21,6 +21,11 @@ get_url.indek.cache.manager <- function(cache, url) {
     xml2::read_html(as.character(dest))
 }
 
+#' The function 'download_file()', download the requested file from
+#' the internet.
+#'
+#' ## S3 methos for class 'indek.href'
+#' @export
 download_file <- function(cache, url, filename) {
     UseMethod("download_file")
 }

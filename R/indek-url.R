@@ -37,6 +37,7 @@ indek.href.set <- function(urls, texts, baseurl, cache) {
               class = "indek.href.set")
 }
 
+#' @export
 '[.indek.href.set' <- function(hrefset, i) {
     indek.href(hrefset$urls[i],
                hrefset$texts[i],
@@ -68,7 +69,7 @@ indek.local.path <- function(path) {
     path
 }
 
-
+#' @export
 download_file.indek.href <- function(href) {
     ## if (class(url) != "indek.href") {
     ##     stop("download_file: url param must be indek.href")
@@ -190,11 +191,26 @@ unzip_extract.indek.href <- function(href, files) {
 
 }
 
-read_tables_zip <- function(href, files) UseMethod("read_tables_zip")
-read_tables_zip.indek.href <- function(href, files, use.cache = TRUE) {
+#' The function 'read_tables_zip' returns a list of data.frames
+#' obtained from the zip file provided.
+#'
+#' It can be user to extract all the files or, if its content
+#' is known, the required.
+#'
+#' ## S3 method for class 'indek.href'
+#'
+#' ## todo: S3 methos for url ("character vector")
+#' 
+#'
+#' @param x the object that points to de zip file.
+#' @param files the files within the zip file that are required
+#' @export
+read_tables_zip <- function(x, files) UseMethod("read_tables_zip")
+#' @export
+read_tables_zip.indek.href <- function(x, files, use.cache = TRUE) {
     if (use.cache) {
-        f <- unzip_extract(href, files)
-        return(lapply(unzip_extract(href, files), function(x) {
+        f <- unzip_extract(x, files)
+        return(lapply(unzip_extract(x, files), function(x) {
             read.table(x, header = TRUE, sep = ";") }))
     }
     

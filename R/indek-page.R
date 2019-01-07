@@ -46,8 +46,9 @@ extract_hrefs.indek.page <- function(page) {
 #'
 #' @param x an object used to select a method
 #' @param regex a character vector with the regexs for matching.
-#' @export
+#' @export 
 find_hrefs <- function(page, regex) UseMethod("find_hrefs")
+#' @export
 find_hrefs.indek.page <- function(page, regexvec) {
     refs <- page$hrefs
 
@@ -62,8 +63,10 @@ find_hrefs.indek.page <- function(page, regexvec) {
     refs
 }
 
+
 #' @export
 find_eph <- function(page, regex) UseMethod("find_eph")
+#' @export 
 find_eph.indek.page <- function(page, regexvec) {
     regexvec <-  c("eph/", regexvec)
     find_hrefs(page, regexvec)

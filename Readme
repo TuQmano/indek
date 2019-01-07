@@ -1,0 +1,19 @@
+This package is for fetching data from indec web page.
+
+
+# Installation
+
+You can install it from github:
+
+> devtools::install_github("pgassendi/indek")
+
+# Usage
+
+> library(indek)
+> ## Obtaining income data:
+> k <- indek.dbs()
+> eph <- find_hrefs(k, "EPH_usu_2_Trim_2018_txt.zip")[1]
+> x <- read_tables_zip(eph,1)[[1]]
+> summary(subset(x, PP08D1 != -9)$PP08D1)
+
+
